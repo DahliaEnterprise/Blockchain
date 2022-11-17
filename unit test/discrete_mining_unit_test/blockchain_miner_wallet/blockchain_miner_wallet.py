@@ -101,6 +101,6 @@ while keep_finding_next_block == 1:
 	
 	#difficulty is atleast satasfactory
 	if atleast_difficulty_found == 1:
-		keep_finding_genesisblock = 0
+		keep_finding_next_block = 0
 		append_block(digest, block_message)
 		print(digest)
