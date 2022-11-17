@@ -25,7 +25,10 @@ def generate_keypair():
 	keypair.append(public_key_as_string)
 	return keypair
 
-
+def append_block(hash,block_message):
+	blockchain_list_of_txhashes.append(digest)
+	blockchain_list_of_txinfo.append(block_message)
+		
 
 #generate device a key pair
 device_a_keypair = generate_keypair()
@@ -39,7 +42,7 @@ device_b_private_key = device_b_keypair[0]
 device_b_public_key = device_b_keypair[1]
 device_b_public_key_as_string = device_b_keypair[2]
 
-	
+
 #initialize new blockchain(in network terms simulated here as a in-script only database)
 blockchain_list_of_txhashes = []
 blockchain_list_of_txinfo = []
@@ -69,7 +72,8 @@ while keep_finding_genesisblock == 1:
 	
 	#difficulty is atleast satasfactory
 	if atleast_difficulty_found == 1:
-		keep_finding_genesisblock = 0;
-		blockchain_list_of_txhashes.append(digest)
-		blockchain_list_of_txinfo.append(block_message)
+		keep_finding_genesisblock = 0
+		append_block(digest, block_message)
 		
+
+print(blockchain_list_of_txhashes[len(blockchain_list_of_txhashes)-1])
