@@ -48,6 +48,7 @@ blockchain_list_of_txhashes = []
 blockchain_list_of_txinfo = []
 
 #mine first block
+reward=20 #20coins per one block
 difficulty = 3;
 character = "0"
 keep_finding_genesisblock = 1
@@ -75,5 +76,31 @@ while keep_finding_genesisblock == 1:
 		keep_finding_genesisblock = 0
 		append_block(digest, block_message)
 		
-
+##generate next block (include a transaction)
 print(blockchain_list_of_txhashes[len(blockchain_list_of_txhashes)-1])
+
+#todo in production: check if from balance/account has greater than or equal to the amount to send
+keep_finding_next_block = 1
+while keep_finding_next_block == 1:
+	next_block_message = "transactionblock_move_two_coins_from_"+device_a_public_key_as_string+"_to_"+device_b_public_key_as_string+"_winneraddress_"+str(difficulty)+"_"+str(time.time())+"_"+device_a_public_key_as_string
+	nonce=random.SystemRandom().randint(1, 9223372036854775807)
+	block_message = next_block_message+"_"+str(nonce)
+	m = hashlib.sha256()
+	m.update(bytes(block_message, 'utf-8'))
+	digest = m.hexdigest()
+	atleast_difficulty_found = 1;
+	difficulty_check_index = 0
+	#print(digest)
+	while difficulty_check_index < difficulty:
+		if digest[difficulty_check_index] != character[0]:
+			#stop while loop(no need to keep searching)
+			difficulty_check_index = difficulty
+			atleast_difficulty_found = 0
+		else:
+			difficulty_check_index += 1
+	
+	#difficulty is atleast satasfactory
+	if atleast_difficulty_found == 1:
+		keep_finding_genesisblock = 0
+		append_block(digest, block_message)
+		print(digest)
