@@ -39,15 +39,6 @@ device_b_private_key = device_b_keypair[0]
 device_b_public_key = device_b_keypair[1]
 device_b_public_key_as_string = device_b_keypair[2]
 
-
-##convert to string; store then open as file to convert to string
-device_a_public_key_as_string = ""
-
-with open("device_a_pub_key.pem", "wb") as f:
-	f.write(device_a_public_key.to_pem())
-with open("device_a_pub_key.pem") as f:
-	device_a_public_key_as_string = f.read()
-
 	
 #initialize new blockchain(in network terms simulated here as a in-script only database)
 blockchain_list_of_txhashes = []
