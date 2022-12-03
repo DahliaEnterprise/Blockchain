@@ -1,4 +1,4 @@
-##ifndef BLOCKCHAIN_H
+#ifndef BLOCKCHAIN_H
 #define BLOCKCHAIN_H
 
 #include <QObject>
@@ -8,22 +8,33 @@
 #include <QCryptographicHash>
 #include <QByteArray>
 #include <QRandomGenerator>
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <QVector>
+#include <QTimer>
+
 class blockchain : public QObject
 {
     Q_OBJECT
 public:
     explicit blockchain(QObject *parent = nullptr);
-    void initialize(uint generate_initial_blockchain);
+    void initialize(uint generate_initial_blockchain, uint blockchain_server, uint search);
 
 private:
     uint difficulty(QByteArray hash);
 
-    QList<QByteArray> hash_list;
-    QList<QByteArray> message_list;
+    uint assist_network_with_validation;
+    QVector<QByteArray> hash_list;
+    QVector<QByteArray> message_list;
 
+    QTcpServer * tcp_server;
+    QVector<QTcpSocket *> list_of_client_socket;
 
 signals:
 
+private slots:
+    void search_for_next_block_validation();
+    void new_connection();
 };
 
 #endif // BLOCKCHAIN_H
