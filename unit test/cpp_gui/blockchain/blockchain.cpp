@@ -45,7 +45,7 @@ void blockchain::initialize(uint generate_initial_blockchain, uint blockchain_se
         //append to blockchain
         hash_list.append(hash.result());
         message_list.append(strJson.toUtf8());
-        qDebug() << "hash " << hash_list;
+        //qDebug() << "hash " << hash_list;
         qDebug() << "message " << message_list;
     }
 
@@ -102,6 +102,7 @@ void blockchain::search_for_next_block_validation()
             {
                 new_difficulty += 1;
             }else if(timepassed > ten_minutes)
+            {
                 new_difficulty -= 1;
                 if(new_difficulty <= 0)
                 {

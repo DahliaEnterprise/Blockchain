@@ -5,7 +5,8 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
-
+#include <QTableWidget>
+#include <QStringList>
 class universal_window : public QWidget
 {
     Q_OBJECT
@@ -22,6 +23,10 @@ private:
 
         QWidget * blockchain_widget;
         QHBoxLayout * blockchain_layout;
+
+        QWidget * wallet_widget;
+        QVBoxLayout * wallet_layout;
+            QTableWidget * address_list_table;
 
 signals:
 
