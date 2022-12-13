@@ -18,7 +18,7 @@ class blockchain : public QObject
     Q_OBJECT
 public:
     explicit blockchain(QObject *parent = nullptr);
-    void initialize(uint generate_initial_blockchain, uint blockchain_server, uint search);
+    void initialize();
 
 private:
     uint difficulty(QByteArray hash);

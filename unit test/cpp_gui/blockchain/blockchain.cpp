@@ -5,7 +5,7 @@ blockchain::blockchain(QObject *parent) : QObject(parent)
 
 }
 
-void blockchain::initialize(uint generate_initial_blockchain, uint blockchain_server, uint search)
+void blockchain::initialize()
 {
     /*
     assist_network_with_validation = search;
