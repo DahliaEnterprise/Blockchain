@@ -7,6 +7,7 @@ blockchain::blockchain(QObject *parent) : QObject(parent)
 
 void blockchain::initialize(uint generate_initial_blockchain, uint blockchain_server, uint search)
 {
+    /*
     assist_network_with_validation = search;
     if(generate_initial_blockchain == 1)
     {
@@ -60,10 +61,12 @@ void blockchain::initialize(uint generate_initial_blockchain, uint blockchain_se
     {
         QTimer::singleShot(100, this, SLOT(search_for_next_block_validation()));
     }
+    */
 }
 
 void blockchain::search_for_next_block_validation()
 {
+    /*
     //determine previous block status
     QByteArray last_hash = hash_list.last();
     QByteArray last_block_message = message_list.last();
@@ -96,11 +99,13 @@ void blockchain::search_for_next_block_validation()
             //determine next difficulty
             qint64 current_time = QDateTime::currentMSecsSinceEpoch();
             qint64 timepassed = current_time - last_timestamp;
-            qint64 ten_minutes = 1000/*ms*/ * 60/*s*/ * 10/*m*/;
+            qint64 ten_minutes = 1000;//1000 * 60 * 10;
             int new_difficulty = last_difficulty;
+            qDebug() << timepassed << " <= " << ten_minutes;
             if(timepassed <= ten_minutes)
             {
                 new_difficulty += 1;
+                qDebug() << "NEW";
             }else if(timepassed > ten_minutes)
             {
                 new_difficulty -= 1;
@@ -109,6 +114,7 @@ void blockchain::search_for_next_block_validation()
                     new_difficulty = 1;
                 }
             }
+            qDebug() << new_difficulty;
             root.insert("difficulty", QJsonValue(new_difficulty));
 
             //nonce
@@ -136,10 +142,12 @@ void blockchain::search_for_next_block_validation()
     qDebug() << "message " << message_list.last();
 
     QTimer::singleShot(100, this, SLOT(search_for_next_block_validation()));
+    */
 }
 
 uint blockchain::difficulty(QByteArray hash)
 {
+    /*
     uint keep_searching = 1;
     uint index = 0;
     uint difficulty = 0;
@@ -160,6 +168,7 @@ uint blockchain::difficulty(QByteArray hash)
         }
     }
     return difficulty;
+    */
 }
 void blockchain::new_connection()
 {
