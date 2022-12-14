@@ -12,6 +12,7 @@ SOURCES += \
     blockchain.cpp \
     blockchain_block_info.cpp \
     blockchain_limbo_database_of_blocks.cpp \
+    blockchain_longest_chain_of_blocks.cpp \
     main.cpp \
     universal_window.cpp
 
@@ -19,6 +20,7 @@ HEADERS += \
     blockchain.h \
     blockchain_block_info.h \
     blockchain_limbo_database_of_blocks.h \
+    blockchain_longest_chain_of_blocks.h \
     universal_window.h
 
 # Default rules for deployment.

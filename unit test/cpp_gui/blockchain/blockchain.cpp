@@ -7,6 +7,18 @@ blockchain::blockchain(QObject *parent) : QObject(parent)
 
 void blockchain::initialize()
 {
+    tcp_server_miner = new QTcpServer();
+    QObject::connect(tcp_server_miner, SIGNAL(newConnection()), this, SLOT(miner_new_connection()));
+    tcp_server_miner->listen(QHostAddress::AnyIPv4, 2100);
+
+    miner_connected = 0;
+
+    limbo_database = new blockchain_limbo_database_of_blocks();
+    limbo_database->initalize();
+
+    longest_chain_database = new blockchain_longest_chain_of_blocks();
+    longest_chain_database->initialize();
+
     /*
     assist_network_with_validation = search;
     if(generate_initial_blockchain == 1)
@@ -170,7 +182,38 @@ uint blockchain::difficulty(QByteArray hash)
     return difficulty;
     */
 }
-void blockchain::new_connection()
+void blockchain::miner_new_connection()
 {
-    qDebug() << "nee connection";
+    miner_connected = 1;
+    tcp_socket_miner = tcp_server_miner->nextPendingConnection();
+    connect(tcp_socket_miner, SIGNAL(readyRead()), this, SLOT(miner_ready_read()));
+}
+
+void blockchain::miner_ready_read()
+{
+    //Parse Incoming JSON HERE
+        //Determine request type.
+        QJsonDocument jdoc = QJsonDocument::fromJson(tcp_socket_miner->readAll());
+        QJsonObject jobj = jdoc.object();
+        qDebug() << "READY READ:" << jobj;
+        QString request_type = jobj.value(QString("request")).toString();
+        qDebug() << request_type;
+        if(request_type.compare(QString("next_block")) == 0)
+        {
+            //Typical request for the next block.
+            if(longest_chain_database->largest_height() == 0)
+            {
+                //There is no next block, report zero height, let the miner decide how to start the chain. (The initial block should be hardcorded into production)
+                QJsonObject response;
+                response.insert(QString("largest_block_height"), QJsonValue(QString("0")));
+                QJsonDocument response_jdoc(response);
+                QByteArray response_json_qbytearray = response_jdoc.toJson(QJsonDocument::Compact);
+                tcp_socket_miner->write(response_json_qbytearray);
+                qDebug() << "NO BLOCKS";
+            }else if(longest_chain_database->largest_height() > 0)
+            {
+
+            }
+        }
+
 }
