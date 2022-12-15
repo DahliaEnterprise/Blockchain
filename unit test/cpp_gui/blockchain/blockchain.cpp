@@ -198,22 +198,18 @@ void blockchain::miner_ready_read()
         qDebug() << "READY READ:" << jobj;
         QString request_type = jobj.value(QString("request")).toString();
         qDebug() << request_type;
+
         if(request_type.compare(QString("next_block")) == 0)
         {
-            //Typical request for the next block.
-            if(longest_chain_database->largest_height() == 0)
-            {
-                //There is no next block, report zero height, let the miner decide how to start the chain. (The initial block should be hardcorded into production)
-                QJsonObject response;
-                response.insert(QString("largest_block_height"), QJsonValue(QString("0")));
-                QJsonDocument response_jdoc(response);
-                QByteArray response_json_qbytearray = response_jdoc.toJson(QJsonDocument::Compact);
-                tcp_socket_miner->write(response_json_qbytearray);
-                qDebug() << "NO BLOCKS";
-            }else if(longest_chain_database->largest_height() > 0)
-            {
-
-            }
+            QJsonObject response;
+            response.insert("block_number", QJsonValue("0"));
+            response.insert("difficulty", QJsonValue("1"));
+            QJsonDocument response_jdoc(response);
+            QByteArray response_json_qbytearray = response_jdoc.toJson(QJsonDocument::Compact);
+            tcp_socket_miner->write(response_json_qbytearray);
+        }else if(request_type.compare(QString("block_found")) == 0)
+        {
+            qDebug() << "BLOCK FOUND";
         }
 
 }
