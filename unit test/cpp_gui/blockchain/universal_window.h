@@ -7,6 +7,9 @@
 #include <QPushButton>
 #include <QTableWidget>
 #include <QStringList>
+#include <QProcess>
+#include <QDebug>
+
 class universal_window : public QWidget
 {
     Q_OBJECT
@@ -27,8 +30,12 @@ private:
         QWidget * wallet_widget;
         QVBoxLayout * wallet_layout;
             QTableWidget * address_list_table;
+            QPushButton * generate_address;
 
 signals:
+
+private slots:
+    void generate_address_button_pressed();
 
 };
 

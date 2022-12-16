@@ -25,7 +25,7 @@ void universal_window::initialize()
         mainlayout->addWidget(wallet_widget);
         wallet_layout = new QVBoxLayout();
         wallet_widget->setLayout(wallet_layout);
-            address_list_table = new QTableWidget(1, 3, nullptr);
+            address_list_table = new QTableWidget(0, 3, nullptr);
             QStringList list;
             list.append("Address");
             list.append("Timestamp Created");
@@ -33,4 +33,17 @@ void universal_window::initialize()
             address_list_table->setHorizontalHeaderLabels(list);
             wallet_layout->addWidget(address_list_table, 1);
 
+            generate_address = new QPushButton(QString("Generate New Address"));
+            wallet_layout->addWidget(generate_address, 1);
+            connect(generate_address, SIGNAL(pressed()), this, SLOT(generate_address_button_pressed()));
+
+}
+
+void universal_window::generate_address_button_pressed()
+{
+    QProcess process;
+    process.start("python3", QStringList("./../blockchain/python/generate_keypair.py"), QIODevice::ReadOnly);
+    process.waitForFinished();
+    qDebug() << process.readLine();
+    qDebug() << process.readLine();
 }
