@@ -209,7 +209,8 @@ void blockchain::miner_ready_read()
             tcp_socket_miner->write(response_json_qbytearray);
         }else if(request_type.compare(QString("block_found")) == 0)
         {
-            qDebug() << "BLOCK FOUND";
+            //Move block hash and exact message to limbo database.
+            limbo_database->append_block(jobj.value("hash").toString().toLatin1(), jobj.value("message").toString().toLatin1());
         }
 
 }
