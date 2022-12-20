@@ -44,6 +44,8 @@ void universal_window::generate_address_button_pressed()
     QProcess process;
     process.start("python3", QStringList("./../blockchain/python/generate_keypair.py"), QIODevice::ReadOnly);
     process.waitForFinished();
-    qDebug() << process.readLine();
-    qDebug() << process.readLine();
+    QByteArray private_key = process.readLine(0);
+    QByteArray public_key = process.readLine(0);
+    qDebug() << private_key;
+    qDebug() << public_key;
 }
